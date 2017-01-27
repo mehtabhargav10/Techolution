@@ -15,11 +15,24 @@ import org.springframework.stereotype.Component;
 import com.techolution.TecholutionApplication;
 import com.techolution.entity.Feed;
 
+/**
+ *
+ * @author bhargav.m
+ *
+ * Feed Bean is used to load feed related data and to calculate
+ * the specification result achieved in given time.
+ */
 @Component
 public class FeedBean {
 
+	/**
+	 * the amount of time given for eating food.
+	 */
 	private Long timeForFeed;
 
+	/**
+	 * starting point for application to run.
+	 */
 	@PostConstruct
 	public void init() {
 		TreeSet<Feed> data = loadData();
@@ -31,6 +44,11 @@ public class FeedBean {
 		System.out.println();
 	}
 
+	/**
+	 * load the data from file and set time given to eat food.
+	 * data.txt is loaded.
+	 * @return TreeSet<Feed> the sorted tree set of feed.
+	 */
 	public TreeSet<Feed> loadData() {
 		try {
 			List<String> lines = IOUtils.readLines(TecholutionApplication.class.getClassLoader().getResourceAsStream("data.txt"), Charset.defaultCharset());
@@ -46,6 +64,11 @@ public class FeedBean {
 		return null;
 	}
 
+	/**
+	 * convert the line of file into feed object.
+	 * @param line the string
+	 * @return The Feed object.
+	 */
 	private Feed convertToFeed(String line) {
 		if (line != null && line.length() > 0) {
 			String[] split = line.split(" ");
@@ -59,6 +82,11 @@ public class FeedBean {
 		return null;
 	}
 
+	/**
+	 * get the highest satisfaction that can be achieved in given time.
+	 * @param data the TreeSet<Feed> of feed
+	 * @return Long the satisfaction achieved
+	 */
 	public Long getSatisfactionCount(TreeSet<Feed> data) {
 		Long value = Long.valueOf(0);
 		if (getTimeForFeed() != null && data != null) {
